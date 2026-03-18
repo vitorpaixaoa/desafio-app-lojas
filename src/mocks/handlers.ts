@@ -87,12 +87,8 @@ export const handlers = [
     const storeId = url.searchParams.get('storeId');
     const search = (url.searchParams.get('search') || '').toLowerCase().trim();
 
-    if (!storeId) {
-      return HttpResponse.text('storeId é obrigatório', { status: 400 });
-    }
-
     const filtered = productsDb.filter((product) => {
-      if (product.storeId !== storeId) {
+      if (storeId && product.storeId !== storeId) {
         return false;
       }
 
