@@ -1,4 +1,5 @@
 import { API_BASE_URL } from '@/shared/constants/api';
+import { runtimeRequest } from '@/mocks/runtimeApi';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -8,8 +9,25 @@ type RequestOptions = {
 };
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  const method = options.method ?? 'GET';
+
+  // Expo Go runtime: usa mock local em memória para evitar chamadas reais de rede.
+  if (__DEV__ && !process.env.JEST_WORKER_ID) {
+    const result = runtimeRequest(method, path, options.body);
+
+    if (result.status >= 400) {
+      throw new Error(result.message || 'Erro na requisição');
+    }
+
+    if (result.status === 204) {
+      return undefined as T;
+    }
+
+    return result.data as T;
+  }
+
   const response = await fetch(`${API_BASE_URL}${path}`, {
-    method: options.method ?? 'GET',
+    method,
     headers: {
       'Content-Type': 'application/json',
     },

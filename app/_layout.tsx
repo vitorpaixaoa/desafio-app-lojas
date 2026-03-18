@@ -2,13 +2,8 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { ensureMocksStarted } from '@/mocks/server';
 import '@/shared/i18n';
 import { AppProviders } from '@/shared/providers/AppProviders';
-
-if (__DEV__) {
-  ensureMocksStarted();
-}
 
 export default function RootLayout() {
   return (
