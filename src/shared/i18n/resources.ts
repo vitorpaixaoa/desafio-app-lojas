@@ -1,0 +1,178 @@
+export const resources = {
+  pt: {
+    translation: {
+      appTitle: 'Painel de Lojas',
+      stores: {
+        title: 'Lojas',
+        add: 'Nova loja',
+        search: 'Buscar lojas',
+        empty: 'Nenhuma loja cadastrada.',
+        form: {
+          createTitle: 'Nova loja',
+          editTitle: 'Editar loja',
+          name: 'Nome',
+          address: 'Endereço',
+          save: 'Salvar',
+          nameRequired: 'Nome é obrigatório',
+          addressRequired: 'Endereço é obrigatório',
+        },
+        delete: {
+          confirmTitle: 'Excluir loja',
+          confirmText: 'Essa ação também remove os produtos da loja.',
+          action: 'Excluir',
+          cancel: 'Cancelar',
+        },
+      },
+      products: {
+        title: 'Produtos',
+        add: 'Novo produto',
+        search: 'Buscar produtos',
+        empty: 'Nenhum produto cadastrado.',
+        form: {
+          createTitle: 'Novo produto',
+          editTitle: 'Editar produto',
+          name: 'Nome do produto',
+          category: 'Categoria',
+          price: 'Preço',
+          save: 'Salvar',
+          nameRequired: 'Nome é obrigatório',
+          categoryRequired: 'Categoria é obrigatória',
+          priceRequired: 'Preço deve ser maior que zero',
+        },
+      },
+      actions: {
+        edit: 'Editar',
+        remove: 'Excluir',
+        close: 'Fechar',
+      },
+      states: {
+        loading: 'Carregando...',
+        error: 'Algo deu errado. Tente novamente.',
+      },
+      language: {
+        label: 'Idioma',
+        pt: 'Português',
+        en: 'Inglês',
+        es: 'Espanhol',
+      },
+    },
+  },
+  en: {
+    translation: {
+      appTitle: 'Store Dashboard',
+      stores: {
+        title: 'Stores',
+        add: 'New store',
+        search: 'Search stores',
+        empty: 'No stores found.',
+        form: {
+          createTitle: 'New store',
+          editTitle: 'Edit store',
+          name: 'Name',
+          address: 'Address',
+          save: 'Save',
+          nameRequired: 'Name is required',
+          addressRequired: 'Address is required',
+        },
+        delete: {
+          confirmTitle: 'Delete store',
+          confirmText: 'This action also removes store products.',
+          action: 'Delete',
+          cancel: 'Cancel',
+        },
+      },
+      products: {
+        title: 'Products',
+        add: 'New product',
+        search: 'Search products',
+        empty: 'No products found.',
+        form: {
+          createTitle: 'New product',
+          editTitle: 'Edit product',
+          name: 'Product name',
+          category: 'Category',
+          price: 'Price',
+          save: 'Save',
+          nameRequired: 'Name is required',
+          categoryRequired: 'Category is required',
+          priceRequired: 'Price must be greater than zero',
+        },
+      },
+      actions: {
+        edit: 'Edit',
+        remove: 'Delete',
+        close: 'Close',
+      },
+      states: {
+        loading: 'Loading...',
+        error: 'Something went wrong. Please try again.',
+      },
+      language: {
+        label: 'Language',
+        pt: 'Portuguese',
+        en: 'English',
+        es: 'Spanish',
+      },
+    },
+  },
+  es: {
+    translation: {
+      appTitle: 'Panel de Tiendas',
+      stores: {
+        title: 'Tiendas',
+        add: 'Nueva tienda',
+        search: 'Buscar tiendas',
+        empty: 'No hay tiendas registradas.',
+        form: {
+          createTitle: 'Nueva tienda',
+          editTitle: 'Editar tienda',
+          name: 'Nombre',
+          address: 'Dirección',
+          save: 'Guardar',
+          nameRequired: 'El nombre es obligatorio',
+          addressRequired: 'La dirección es obligatoria',
+        },
+        delete: {
+          confirmTitle: 'Eliminar tienda',
+          confirmText: 'Esta acción también elimina los productos de la tienda.',
+          action: 'Eliminar',
+          cancel: 'Cancelar',
+        },
+      },
+      products: {
+        title: 'Productos',
+        add: 'Nuevo producto',
+        search: 'Buscar productos',
+        empty: 'No hay productos registrados.',
+        form: {
+          createTitle: 'Nuevo producto',
+          editTitle: 'Editar producto',
+          name: 'Nombre del producto',
+          category: 'Categoría',
+          price: 'Precio',
+          save: 'Guardar',
+          nameRequired: 'El nombre es obligatorio',
+          categoryRequired: 'La categoría es obligatoria',
+          priceRequired: 'El precio debe ser mayor que cero',
+        },
+      },
+      actions: {
+        edit: 'Editar',
+        remove: 'Eliminar',
+        close: 'Cerrar',
+      },
+      states: {
+        loading: 'Cargando...',
+        error: 'Algo salió mal. Inténtalo de nuevo.',
+      },
+      language: {
+        label: 'Idioma',
+        pt: 'Portugués',
+        en: 'Inglés',
+        es: 'Español',
+      },
+    },
+  },
+} as const;
+
+export type AppLanguage = keyof typeof resources;
