@@ -27,3 +27,18 @@ jest.mock("expo-linear-gradient", () => {
       React.createElement(View, props, children),
   };
 });
+
+jest.spyOn(console, "warn").mockImplementation(() => {});
+jest.spyOn(console, "info").mockImplementation(() => {});
+
+const originalConsoleError = console.error;
+
+jest.spyOn(console, "error").mockImplementation((...args) => {
+  const firstArg = typeof args[0] === "string" ? args[0] : "";
+
+  if (firstArg.includes("not wrapped in act")) {
+    return;
+  }
+
+  originalConsoleError(...args);
+});
