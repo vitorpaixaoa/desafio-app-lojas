@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 import { useRouter } from 'expo-router';
+import { MotiView } from 'moti';
 import {
   Box,
   Button,
@@ -29,6 +30,7 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
   const router = useRouter();
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
+  const [isAddPressed, setIsAddPressed] = useState(false);
 
   const { data: products = [], isLoading, isError } = useProducts(storeId ?? '', search);
   const deleteProduct = useDeleteProduct();
@@ -53,15 +55,42 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
 
   return (
     <ScreenGradient>
-      <ScrollView contentContainerStyle={{ padding: 16, gap: 16 }}>
-        <VStack gap="$4">
-          <Heading color="$textLight50" size="2xl">
-            {t('products.title')}
-          </Heading>
+      <ScrollView contentContainerStyle={{ padding: 18, gap: 18 }}>
+        <MotiView
+          from={{ opacity: 0, translateY: 12 }}
+          animate={{ opacity: 1, translateY: 0 }}
+          transition={{ type: 'timing', duration: 420 }}
+        >
+          <VStack gap="$1" mb="$4">
+            <Text
+              color="$blue300"
+              fontSize="$xs"
+              letterSpacing={1.4}
+              textTransform="uppercase"
+              opacity={0.85}
+            >
+              Store Inventory
+            </Text>
+            <Heading color="$textLight50" size="3xl" lineHeight="$4xl">
+              {t('products.title')}
+            </Heading>
+            <Text color="$textLight300" mt="$1">
+              Itens vinculados à loja, com busca instantânea e edição rápida.
+            </Text>
+          </VStack>
+        </MotiView>
 
+        <VStack
+          gap="$4"
+          bg="$backgroundDark800"
+          p="$4"
+          borderRadius="$3xl"
+          borderColor="$borderDark700"
+          borderWidth={1}
+        >
           <HStack gap="$3">
             <Box flex={1}>
-              <Input variant="outline" bg="$backgroundDark800" borderRadius="$xl">
+              <Input variant="outline" bg="$backgroundDark900" borderRadius="$2xl" height="$12">
                 <InputField
                   placeholder={t('products.search')}
                   placeholderTextColor="#9AA8BE"
@@ -71,22 +100,39 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
               </Input>
             </Box>
 
-            <Button
-              borderRadius="$xl"
-              onPress={() =>
-                router.push({
-                  pathname: '/stores/[storeId]/products/new',
-                  params: { storeId: storeId ?? '' },
-                })
-              }
+            <MotiView
+              animate={{ scale: isAddPressed ? 0.97 : 1 }}
+              transition={{ type: 'timing', duration: 120 }}
             >
-              <ButtonText>{t('products.add')}</ButtonText>
-            </Button>
+              <Button
+                borderRadius="$2xl"
+                h="$12"
+                px="$5"
+                onPressIn={() => setIsAddPressed(true)}
+                onPressOut={() => setIsAddPressed(false)}
+                onPress={() =>
+                  router.push({
+                    pathname: '/stores/[storeId]/products/new',
+                    params: { storeId: storeId ?? '' },
+                  })
+                }
+              >
+                <ButtonText>{t('products.add')}</ButtonText>
+              </Button>
+            </MotiView>
           </HStack>
         </VStack>
 
         {isLoading ? (
-          <VStack alignItems="center" justifyContent="center" py="$10">
+          <VStack
+            alignItems="center"
+            justifyContent="center"
+            py="$10"
+            bg="$backgroundDark800"
+            borderRadius="$3xl"
+            borderColor="$borderDark700"
+            borderWidth={1}
+          >
             <Spinner size="large" color="$blue400" />
             <Text color="$textLight300" mt="$2">
               {t('states.loading')}
@@ -95,26 +141,45 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
         ) : null}
 
         {isError ? (
-          <Text color="$error400" mt="$3">
+          <Text color="$error300" mt="$3">
             {t('states.error')}
           </Text>
         ) : null}
 
         {empty ? (
-          <Text color="$textLight300" mt="$3">
-            {t('products.empty')}
-          </Text>
+          <Box
+            mt="$3"
+            p="$5"
+            borderRadius="$3xl"
+            borderColor="$borderDark700"
+            borderWidth={1}
+            bg="$backgroundDark800"
+          >
+            <Text color="$textLight300">{t('products.empty')}</Text>
+          </Box>
         ) : null}
 
-        <VStack gap="$3" mt="$1">
+        <VStack gap="$4" mt="$1">
           {products.map((product, index) => (
-            <AnimatedCard key={product.id} delay={index * 60}>
-              <VStack gap="$2">
-                <Text color="$textLight50" size="lg" fontWeight="$bold">
+            <AnimatedCard key={product.id} delay={index * 70}>
+              <VStack gap="$3">
+                <Text color="$textLight50" size="xl" fontWeight="$bold" letterSpacing={0.2}>
                   {product.name}
                 </Text>
                 <Text color="$textLight300">{product.category}</Text>
-                <Text color="$blue300">{formatCurrency(product.price)}</Text>
+                <Box
+                  alignSelf="flex-start"
+                  bg="$blue900"
+                  px="$3"
+                  py="$1"
+                  borderRadius="$full"
+                  borderColor="$blue700"
+                  borderWidth={1}
+                >
+                  <Text color="$blue200" fontSize="$xs" letterSpacing={0.6}>
+                    {formatCurrency(product.price)}
+                  </Text>
+                </Box>
 
                 <HStack gap="$2" mt="$2">
                   <Button
@@ -122,6 +187,7 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
                     variant="outline"
                     action="secondary"
                     borderRadius="$lg"
+                    h="$11"
                     onPress={() =>
                       router.push({
                         pathname: '/stores/[storeId]/products/[productId]/edit',
@@ -140,6 +206,7 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
                     variant="solid"
                     action="negative"
                     borderRadius="$lg"
+                    h="$11"
                     onPress={() => onDeleteProduct(product.id)}
                   >
                     <ButtonText>{t('actions.remove')}</ButtonText>

@@ -1,4 +1,5 @@
 import { Button, ButtonText, HStack } from '@gluestack-ui/themed';
+import { MotiView } from 'moti';
 
 import { AppLanguage } from '@/shared/i18n/resources';
 import { useLanguageStore } from '@/shared/state/useLanguageStore';
@@ -14,17 +15,31 @@ export function LanguageSwitcher() {
   const setLanguage = useLanguageStore((state) => state.setLanguage);
 
   return (
-    <HStack gap="$2">
+    <HStack
+      gap="$2"
+      bg="$backgroundDark800"
+      p="$1"
+      borderRadius="$full"
+      borderColor="$borderDark700"
+      borderWidth={1}
+    >
       {languages.map((item) => (
-        <Button
+        <MotiView
           key={item.code}
-          action={language === item.code ? 'primary' : 'secondary'}
-          size="xs"
-          variant={language === item.code ? 'solid' : 'outline'}
-          onPress={() => setLanguage(item.code)}
+          animate={{ scale: language === item.code ? 1 : 0.96 }}
+          transition={{ type: 'timing', duration: 180 }}
         >
-          <ButtonText>{item.label}</ButtonText>
-        </Button>
+          <Button
+            action={language === item.code ? 'primary' : 'secondary'}
+            size="xs"
+            variant={language === item.code ? 'solid' : 'link'}
+            borderRadius="$full"
+            minWidth="$10"
+            onPress={() => setLanguage(item.code)}
+          >
+            <ButtonText>{item.label}</ButtonText>
+          </Button>
+        </MotiView>
       ))}
     </HStack>
   );

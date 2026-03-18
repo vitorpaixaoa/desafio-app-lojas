@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'expo-router';
+import { MotiView } from 'moti';
 import {
+  Box,
   Button,
   ButtonText,
   Heading,
@@ -109,43 +111,64 @@ export function ProductFormScreen({ mode, storeId, productId }: ProductFormScree
 
   return (
     <ScreenGradient>
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
+      <ScrollView contentContainerStyle={{ padding: 18 }}>
         <VStack gap="$4">
-          <Heading color="$textLight50" size="xl">
-            {mode === 'create' ? t('products.form.createTitle') : t('products.form.editTitle')}
-          </Heading>
+          <MotiView
+            from={{ opacity: 0, translateY: 10 }}
+            animate={{ opacity: 1, translateY: 0 }}
+            transition={{ type: 'timing', duration: 320 }}
+          >
+            <VStack gap="$1">
+              <Text color="$blue300" fontSize="$xs" textTransform="uppercase" letterSpacing={1.3}>
+                Product Details
+              </Text>
+              <Heading color="$textLight50" size="2xl" lineHeight="$3xl">
+                {mode === 'create' ? t('products.form.createTitle') : t('products.form.editTitle')}
+              </Heading>
+            </VStack>
+          </MotiView>
 
-          <VStack gap="$2">
-            <Text color="$textLight300">{t('products.form.name')}</Text>
-            <Input bg="$backgroundDark800" borderRadius="$xl">
-              <InputField value={name} onChangeText={setName} autoCapitalize="words" />
-            </Input>
-          </VStack>
+          <Box
+            bg="$backgroundDark800"
+            borderColor="$borderDark700"
+            borderWidth={1}
+            borderRadius="$3xl"
+            p="$5"
+          >
+            <VStack gap="$4">
+              <VStack gap="$2">
+                <Text color="$textLight300">{t('products.form.name')}</Text>
+                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                  <InputField value={name} onChangeText={setName} autoCapitalize="words" />
+                </Input>
+              </VStack>
 
-          <VStack gap="$2">
-            <Text color="$textLight300">{t('products.form.category')}</Text>
-            <Input bg="$backgroundDark800" borderRadius="$xl">
-              <InputField value={category} onChangeText={setCategory} autoCapitalize="words" />
-            </Input>
-          </VStack>
+              <VStack gap="$2">
+                <Text color="$textLight300">{t('products.form.category')}</Text>
+                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                  <InputField value={category} onChangeText={setCategory} autoCapitalize="words" />
+                </Input>
+              </VStack>
 
-          <VStack gap="$2">
-            <Text color="$textLight300">{t('products.form.price')}</Text>
-            <Input bg="$backgroundDark800" borderRadius="$xl">
-              <InputField
-                value={price}
-                onChangeText={setPrice}
-                keyboardType="decimal-pad"
-                autoCapitalize="none"
-              />
-            </Input>
-          </VStack>
+              <VStack gap="$2">
+                <Text color="$textLight300">{t('products.form.price')}</Text>
+                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                  <InputField
+                    value={price}
+                    onChangeText={setPrice}
+                    keyboardType="decimal-pad"
+                    autoCapitalize="none"
+                  />
+                </Input>
+              </VStack>
 
-          {error ? <Text color="$error400">{error}</Text> : null}
+              {error ? <Text color="$error300">{error}</Text> : null}
 
-          <Button borderRadius="$xl" isDisabled={isSubmitting} onPress={onSubmit}>
-            <ButtonText>{t('products.form.save')}</ButtonText>
-          </Button>
+              <Button borderRadius="$2xl" h="$12" isDisabled={isSubmitting} onPress={onSubmit}>
+                <ButtonText>{t('products.form.save')}</ButtonText>
+              </Button>
+            </VStack>
+          </Box>
         </VStack>
       </ScrollView>
     </ScreenGradient>
