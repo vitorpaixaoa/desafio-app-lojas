@@ -60,7 +60,7 @@ export function StoreListScreen() {
         >
           <VStack gap="$1" mb="$4">
             <Text
-              color="$blue300"
+              color="#1D4ED8"
               fontSize="$xs"
               letterSpacing={1.4}
               textTransform="uppercase"
@@ -68,10 +68,10 @@ export function StoreListScreen() {
             >
               Retail Manager
             </Text>
-            <Heading color="$textLight50" size="3xl" lineHeight="$4xl">
+            <Heading color="$textDark950" size="3xl" lineHeight="$4xl">
               {t('stores.title')}
             </Heading>
-            <Text color="$textLight300" mt="$1">
+            <Text color="$textDark600" mt="$1">
               Gestão centralizada com busca rápida e navegação fluida.
             </Text>
           </VStack>
@@ -79,14 +79,14 @@ export function StoreListScreen() {
 
         <VStack
           gap="$4"
-          bg="$backgroundDark800"
+          bg="$backgroundLight50"
           p="$4"
           borderRadius="$3xl"
-          borderColor="$borderDark700"
+          borderColor="$borderLight300"
           borderWidth={1}
         >
           <HStack alignItems="center" justifyContent="space-between">
-            <Text color="$textLight300" fontSize="$sm">
+            <Text color="$textDark600" fontSize="$sm">
               Preferência de idioma
             </Text>
             <LanguageSwitcher />
@@ -94,10 +94,10 @@ export function StoreListScreen() {
 
           <HStack gap="$3">
             <Box flex={1}>
-              <Input variant="outline" bg="$backgroundDark900" borderRadius="$2xl" height="$12">
+              <Input variant="outline" bg="$backgroundLight0" borderRadius="$2xl" height="$12">
                 <InputField
                   placeholder={t('stores.search')}
-                  placeholderTextColor="#9AA8BE"
+                  placeholderTextColor="#6B7280"
                   value={search}
                   onChangeText={setSearch}
                 />
@@ -127,20 +127,20 @@ export function StoreListScreen() {
             alignItems="center"
             justifyContent="center"
             py="$10"
-            bg="$backgroundDark800"
+            bg="$backgroundLight50"
             borderRadius="$3xl"
-            borderColor="$borderDark700"
+            borderColor="$borderLight300"
             borderWidth={1}
           >
             <Spinner size="large" color="$blue400" />
-            <Text color="$textLight300" mt="$2">
+            <Text color="$textDark600" mt="$2">
               {t('states.loading')}
             </Text>
           </VStack>
         ) : null}
 
         {isError ? (
-          <Text color="$error300" mt="$3">
+          <Text color="#B42318" mt="$3">
             {t('states.error')}
           </Text>
         ) : null}
@@ -150,11 +150,11 @@ export function StoreListScreen() {
             mt="$3"
             p="$5"
             borderRadius="$3xl"
-            borderColor="$borderDark700"
+            borderColor="$borderLight300"
             borderWidth={1}
-            bg="$backgroundDark800"
+            bg="$backgroundLight50"
           >
-            <Text color="$textLight300">{t('stores.empty')}</Text>
+            <Text color="$textDark600">{t('stores.empty')}</Text>
           </Box>
         ) : null}
 
@@ -175,25 +175,25 @@ export function StoreListScreen() {
                     })
                   }
                 >
-                  <ButtonText size="xl" color="$textLight50" letterSpacing={0.2}>
+                  <ButtonText size="xl" color="$textDark950" letterSpacing={0.2}>
                     {store.name}
                   </ButtonText>
                 </Button>
 
-                <Text color="$textLight300">{formatAddressLine(store.address)}</Text>
-                <Text color="$textLight400" fontSize="$xs">
+                <Text color="$textDark600">{formatAddressLine(store.address)}</Text>
+                <Text color="$textDark400" fontSize="$xs">
                   {formatAddressMeta(store.address)}
                 </Text>
                 <Box
                   alignSelf="flex-start"
-                  bg="$blue900"
+                  bg="#E8F1FF"
                   px="$3"
                   py="$1"
                   borderRadius="$full"
-                  borderColor="$blue700"
+                  borderColor="#BBD3FF"
                   borderWidth={1}
                 >
-                  <Text color="$blue200" fontSize="$xs" letterSpacing={0.6}>
+                  <Text color="#1D4ED8" fontSize="$xs" letterSpacing={0.6}>
                     {store.productsCount} {productsLabel}
                   </Text>
                 </Box>

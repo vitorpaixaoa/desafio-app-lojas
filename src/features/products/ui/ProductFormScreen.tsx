@@ -119,40 +119,40 @@ export function ProductFormScreen({ mode, storeId, productId }: ProductFormScree
             transition={{ type: 'timing', duration: 320 }}
           >
             <VStack gap="$1">
-              <Text color="$blue300" fontSize="$xs" textTransform="uppercase" letterSpacing={1.3}>
+              <Text color="#1D4ED8" fontSize="$xs" textTransform="uppercase" letterSpacing={1.3}>
                 Product Details
               </Text>
-              <Heading color="$textLight50" size="2xl" lineHeight="$3xl">
+              <Heading color="$textDark950" size="2xl" lineHeight="$3xl">
                 {mode === 'create' ? t('products.form.createTitle') : t('products.form.editTitle')}
               </Heading>
             </VStack>
           </MotiView>
 
           <Box
-            bg="$backgroundDark800"
-            borderColor="$borderDark700"
+            bg="$backgroundLight50"
+            borderColor="$borderLight300"
             borderWidth={1}
             borderRadius="$3xl"
             p="$5"
           >
             <VStack gap="$4">
               <VStack gap="$2">
-                <Text color="$textLight300">{t('products.form.name')}</Text>
-                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                <Text color="$textDark600">{t('products.form.name')}</Text>
+                <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                   <InputField value={name} onChangeText={setName} autoCapitalize="words" />
                 </Input>
               </VStack>
 
               <VStack gap="$2">
-                <Text color="$textLight300">{t('products.form.category')}</Text>
-                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                <Text color="$textDark600">{t('products.form.category')}</Text>
+                <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                   <InputField value={category} onChangeText={setCategory} autoCapitalize="words" />
                 </Input>
               </VStack>
 
               <VStack gap="$2">
-                <Text color="$textLight300">{t('products.form.price')}</Text>
-                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                <Text color="$textDark600">{t('products.form.price')}</Text>
+                <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                   <InputField
                     value={price}
                     onChangeText={setPrice}
@@ -162,7 +162,7 @@ export function ProductFormScreen({ mode, storeId, productId }: ProductFormScree
                 </Input>
               </VStack>
 
-              {error ? <Text color="$error300">{error}</Text> : null}
+              {error ? <Text color="#B42318">{error}</Text> : null}
 
               <Button borderRadius="$2xl" h="$12" isDisabled={isSubmitting} onPress={onSubmit}>
                 <ButtonText>{t('products.form.save')}</ButtonText>

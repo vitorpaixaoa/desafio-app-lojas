@@ -9,13 +9,13 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AppProviders>
-        <StatusBar style="light" />
+        <StatusBar style="dark" />
         <Stack
           screenOptions={{
-            headerTintColor: '#EAF4FF',
-            headerStyle: { backgroundColor: '#0D1B2A' },
+            headerTintColor: '#0F2A43',
+            headerStyle: { backgroundColor: '#F3F8FF' },
             headerTitleStyle: { fontWeight: '700' },
-            contentStyle: { backgroundColor: '#0D1B2A' },
+            contentStyle: { backgroundColor: '#F7FAFF' },
           }}
         >
           <Stack.Screen name="index" options={{ title: 'Stores' }} />

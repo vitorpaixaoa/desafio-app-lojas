@@ -17,10 +17,10 @@ export function LanguageSwitcher() {
   return (
     <HStack
       gap="$2"
-      bg="$backgroundDark800"
+      bg="$backgroundLight100"
       p="$1"
       borderRadius="$full"
-      borderColor="$borderDark700"
+      borderColor="$borderLight300"
       borderWidth={1}
     >
       {languages.map((item) => (

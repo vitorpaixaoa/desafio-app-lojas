@@ -63,7 +63,7 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
         >
           <VStack gap="$1" mb="$4">
             <Text
-              color="$blue300"
+              color="#1D4ED8"
               fontSize="$xs"
               letterSpacing={1.4}
               textTransform="uppercase"
@@ -71,10 +71,10 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
             >
               Store Inventory
             </Text>
-            <Heading color="$textLight50" size="3xl" lineHeight="$4xl">
+            <Heading color="$textDark950" size="3xl" lineHeight="$4xl">
               {t('products.title')}
             </Heading>
-            <Text color="$textLight300" mt="$1">
+            <Text color="$textDark600" mt="$1">
               Itens vinculados à loja, com busca instantânea e edição rápida.
             </Text>
           </VStack>
@@ -82,18 +82,18 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
 
         <VStack
           gap="$4"
-          bg="$backgroundDark800"
+          bg="$backgroundLight50"
           p="$4"
           borderRadius="$3xl"
-          borderColor="$borderDark700"
+          borderColor="$borderLight300"
           borderWidth={1}
         >
           <HStack gap="$3">
             <Box flex={1}>
-              <Input variant="outline" bg="$backgroundDark900" borderRadius="$2xl" height="$12">
+              <Input variant="outline" bg="$backgroundLight0" borderRadius="$2xl" height="$12">
                 <InputField
                   placeholder={t('products.search')}
-                  placeholderTextColor="#9AA8BE"
+                  placeholderTextColor="#6B7280"
                   value={search}
                   onChangeText={setSearch}
                 />
@@ -128,20 +128,20 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
             alignItems="center"
             justifyContent="center"
             py="$10"
-            bg="$backgroundDark800"
+            bg="$backgroundLight50"
             borderRadius="$3xl"
-            borderColor="$borderDark700"
+            borderColor="$borderLight300"
             borderWidth={1}
           >
             <Spinner size="large" color="$blue400" />
-            <Text color="$textLight300" mt="$2">
+            <Text color="$textDark600" mt="$2">
               {t('states.loading')}
             </Text>
           </VStack>
         ) : null}
 
         {isError ? (
-          <Text color="$error300" mt="$3">
+          <Text color="#B42318" mt="$3">
             {t('states.error')}
           </Text>
         ) : null}
@@ -151,11 +151,11 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
             mt="$3"
             p="$5"
             borderRadius="$3xl"
-            borderColor="$borderDark700"
+            borderColor="$borderLight300"
             borderWidth={1}
-            bg="$backgroundDark800"
+            bg="$backgroundLight50"
           >
-            <Text color="$textLight300">{t('products.empty')}</Text>
+            <Text color="$textDark600">{t('products.empty')}</Text>
           </Box>
         ) : null}
 
@@ -163,20 +163,20 @@ export function ProductListScreen({ storeId }: ProductListScreenProps) {
           {products.map((product, index) => (
             <AnimatedCard key={product.id} delay={index * 70}>
               <VStack gap="$3">
-                <Text color="$textLight50" size="xl" fontWeight="$bold" letterSpacing={0.2}>
+                <Text color="$textDark950" size="xl" fontWeight="$bold" letterSpacing={0.2}>
                   {product.name}
                 </Text>
-                <Text color="$textLight300">{product.category}</Text>
+                <Text color="$textDark600">{product.category}</Text>
                 <Box
                   alignSelf="flex-start"
-                  bg="$blue900"
+                  bg="#E8F1FF"
                   px="$3"
                   py="$1"
                   borderRadius="$full"
-                  borderColor="$blue700"
+                  borderColor="#BBD3FF"
                   borderWidth={1}
                 >
-                  <Text color="$blue200" fontSize="$xs" letterSpacing={0.6}>
+                  <Text color="#1D4ED8" fontSize="$xs" letterSpacing={0.6}>
                     {formatCurrency(product.price)}
                   </Text>
                 </Box>

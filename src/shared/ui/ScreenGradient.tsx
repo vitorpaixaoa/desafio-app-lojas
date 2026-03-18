@@ -11,20 +11,20 @@ export function ScreenGradient({ children }: ScreenGradientProps) {
   return (
     <Box flex={1}>
       <LinearGradient
-        colors={['#09111F', '#12263C', '#111B2E', '#0B1322']}
+        colors={['#F8FBFF', '#EEF5FF', '#F7FAFF', '#EEF4FF']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.fill}
       >
         <LinearGradient
-          colors={['rgba(125, 203, 255, 0.2)', 'rgba(125, 203, 255, 0)']}
+          colors={['rgba(78, 141, 255, 0.14)', 'rgba(78, 141, 255, 0)']}
           style={styles.topGlow}
           start={{ x: 0.1, y: 0 }}
           end={{ x: 1, y: 1 }}
           pointerEvents="none"
         />
         <LinearGradient
-          colors={['rgba(27, 87, 167, 0.24)', 'rgba(27, 87, 167, 0)']}
+          colors={['rgba(54, 102, 196, 0.12)', 'rgba(54, 102, 196, 0)']}
           style={styles.bottomGlow}
           start={{ x: 1, y: 1 }}
           end={{ x: 0, y: 0 }}

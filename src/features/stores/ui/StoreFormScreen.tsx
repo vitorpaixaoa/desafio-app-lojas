@@ -194,35 +194,35 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
             transition={{ type: 'timing', duration: 320 }}
           >
             <VStack gap="$1">
-              <Text color="$blue300" fontSize="$xs" textTransform="uppercase" letterSpacing={1.3}>
+              <Text color="#1D4ED8" fontSize="$xs" textTransform="uppercase" letterSpacing={1.3}>
                 Store Details
               </Text>
-              <Heading color="$textLight50" size="2xl" lineHeight="$3xl">
+              <Heading color="$textDark950" size="2xl" lineHeight="$3xl">
                 {mode === 'create' ? t('stores.form.createTitle') : t('stores.form.editTitle')}
               </Heading>
             </VStack>
           </MotiView>
 
           <Box
-            bg="$backgroundDark800"
-            borderColor="$borderDark700"
+            bg="$backgroundLight50"
+            borderColor="$borderLight300"
             borderWidth={1}
             borderRadius="$3xl"
             p="$5"
           >
             <VStack gap="$4">
               <VStack gap="$2">
-                <Text color="$textLight300">{t('stores.form.name')}</Text>
-                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                <Text color="$textDark600">{t('stores.form.name')}</Text>
+                <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                   <InputField value={name} onChangeText={setName} autoCapitalize="words" />
                 </Input>
               </VStack>
 
               <VStack gap="$2">
-                <Text color="$textLight300">{t('stores.form.zipCode')}</Text>
+                <Text color="$textDark600">{t('stores.form.zipCode')}</Text>
                 <HStack gap="$2">
                   <Box flex={1}>
-                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                    <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                       <InputField
                         value={address.zipCode}
                         onChangeText={(value) => setAddressField('zipCode', formatZipCode(value))}
@@ -256,8 +256,8 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
               </VStack>
 
               <VStack gap="$2">
-                <Text color="$textLight300">{t('stores.form.street')}</Text>
-                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                <Text color="$textDark600">{t('stores.form.street')}</Text>
+                <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                   <InputField
                     value={address.street}
                     onChangeText={(value) => setAddressField('street', value)}
@@ -269,8 +269,8 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
               <HStack gap="$2">
                 <Box flex={1}>
                   <VStack gap="$2">
-                    <Text color="$textLight300">{t('stores.form.number')}</Text>
-                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                    <Text color="$textDark600">{t('stores.form.number')}</Text>
+                    <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                       <InputField
                         value={address.number}
                         onChangeText={(value) => setAddressField('number', value)}
@@ -282,8 +282,8 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
 
                 <Box flex={2}>
                   <VStack gap="$2">
-                    <Text color="$textLight300">{t('stores.form.neighborhood')}</Text>
-                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                    <Text color="$textDark600">{t('stores.form.neighborhood')}</Text>
+                    <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                       <InputField
                         value={address.neighborhood}
                         onChangeText={(value) => setAddressField('neighborhood', value)}
@@ -297,8 +297,8 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
               <HStack gap="$2">
                 <Box flex={2}>
                   <VStack gap="$2">
-                    <Text color="$textLight300">{t('stores.form.city')}</Text>
-                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                    <Text color="$textDark600">{t('stores.form.city')}</Text>
+                    <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                       <InputField
                         value={address.city}
                         onChangeText={(value) => setAddressField('city', value)}
@@ -310,8 +310,8 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
 
                 <Box flex={1}>
                   <VStack gap="$2">
-                    <Text color="$textLight300">{t('stores.form.state')}</Text>
-                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                    <Text color="$textDark600">{t('stores.form.state')}</Text>
+                    <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                       <InputField
                         value={address.state}
                         onChangeText={(value) =>
@@ -326,8 +326,8 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
               </HStack>
 
               <VStack gap="$2">
-                <Text color="$textLight300">{t('stores.form.complement')}</Text>
-                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                <Text color="$textDark600">{t('stores.form.complement')}</Text>
+                <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                   <InputField
                     value={address.complement}
                     onChangeText={(value) => setAddressField('complement', value)}
@@ -336,7 +336,7 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
                 </Input>
               </VStack>
 
-              {error ? <Text color="$error300">{error}</Text> : null}
+              {error ? <Text color="#B42318">{error}</Text> : null}
 
               <Button borderRadius="$2xl" h="$12" isDisabled={isSubmitting} onPress={onSubmit}>
                 <ButtonText>{t('stores.form.save')}</ButtonText>

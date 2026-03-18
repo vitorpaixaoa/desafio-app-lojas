@@ -20,14 +20,14 @@ export function AnimatedCard({ children, delay = 0 }: AnimatedCardProps) {
       }}
     >
       <Box
-        bg="$backgroundDark800"
-        borderColor="$borderDark600"
+        bg="$backgroundLight50"
+        borderColor="$borderLight300"
         borderWidth={1}
         borderRadius="$3xl"
         p="$5"
-        shadowColor="$backgroundDark950"
+        shadowColor="#133A63"
         shadowOffset={{ width: 0, height: 10 }}
-        shadowOpacity={0.25}
+        shadowOpacity={0.12}
         shadowRadius={16}
       >
         {children}
