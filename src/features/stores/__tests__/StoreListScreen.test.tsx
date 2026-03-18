@@ -3,7 +3,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react-nativ
 
 import { resetMockDb } from '@/mocks/data';
 import { server } from '@/mocks/server';
-import i18next from '@/shared/i18n';
 import { TestProviders } from '@/test/TestProviders';
 import { StoreListScreen } from '@/features/stores/ui/StoreListScreen';
 
@@ -19,10 +18,9 @@ describe('StoreListScreen', () => {
     server.listen({ onUnhandledRequest: 'error' });
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     server.resetHandlers();
     resetMockDb();
-    await i18next.changeLanguage('pt');
   });
 
   afterAll(() => {
