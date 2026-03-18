@@ -35,7 +35,15 @@ describe('storesApi', () => {
   it('cria uma nova loja', async () => {
     const created = await createStore({
       name: 'Loja Sul',
-      address: 'Rua das Palmeiras, 300',
+      address: {
+        zipCode: '65000000',
+        street: 'Rua das Palmeiras',
+        number: '300',
+        neighborhood: 'Jardins',
+        city: 'São Luís',
+        state: 'MA',
+        complement: 'Sala 3',
+      },
     });
 
     const stores = await getStores();
@@ -51,10 +59,14 @@ describe('storesApi', () => {
 
     const updated = await updateStore(first.id, {
       name: 'Loja Centro Atualizada',
-      address: first.address,
+      address: {
+        ...first.address,
+        number: '999',
+      },
     });
 
     expect(updated.name).toBe('Loja Centro Atualizada');
+    expect(updated.address.number).toBe('999');
 
     const refreshed = await getStores();
     const found = refreshed.find((store) => store.id === first.id);
