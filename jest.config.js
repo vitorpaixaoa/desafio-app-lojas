@@ -7,6 +7,6 @@ module.exports = {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
   transformIgnorePatterns: [
-    "node_modules/(?!((jest-)?react-native|@react-native(-community)?|expo(nent)?|expo-modules-core|@expo(nent)?/.*|@expo-google-fonts/.*|@react-navigation/.*|react-navigation|native-base|react-native-svg|@bundled-es-modules/.*|msw|until-async)/)",
+    "node_modules/(?!((jest-)?react-native|@react-native(-community)?|expo(nent)?|expo-modules-core|@expo(nent)?/.*|@expo-google-fonts/.*|@react-navigation/.*|react-navigation|native-base|react-native-svg|@bundled-es-modules/.*|@gluestack-ui/.*|@gluestack-style/.*|@legendapp/motion|moti|msw|until-async)/)",
   ],
 };
