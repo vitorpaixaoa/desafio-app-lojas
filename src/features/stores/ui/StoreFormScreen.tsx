@@ -6,6 +6,7 @@ import {
   Button,
   ButtonText,
   Heading,
+  HStack,
   Input,
   InputField,
   ScrollView,
@@ -15,11 +16,33 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import { useCreateStore, useStores, useUpdateStore } from '@/features/stores/hooks/useStores';
+import { lookupCep } from '@/shared/services/cepService';
 import { ScreenGradient } from '@/shared/ui/ScreenGradient';
+import { formatZipCode, normalizeZipCode } from '@/shared/utils/address';
 
 type StoreFormScreenProps = {
   mode: 'create' | 'edit';
   storeId?: string;
+};
+
+type AddressFormState = {
+  zipCode: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  complement: string;
+};
+
+const emptyAddress: AddressFormState = {
+  zipCode: '',
+  street: '',
+  number: '',
+  neighborhood: '',
+  city: '',
+  state: '',
+  complement: '',
 };
 
 export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
@@ -37,34 +60,111 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
   );
 
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState<AddressFormState>(emptyAddress);
   const [error, setError] = useState('');
+  const [isLookingUpZip, setIsLookingUpZip] = useState(false);
 
   useEffect(() => {
     if (mode === 'edit' && selectedStore) {
       setName(selectedStore.name);
-      setAddress(selectedStore.address);
+      setAddress({
+        zipCode: formatZipCode(selectedStore.address.zipCode),
+        street: selectedStore.address.street,
+        number: selectedStore.address.number,
+        neighborhood: selectedStore.address.neighborhood,
+        city: selectedStore.address.city,
+        state: selectedStore.address.state,
+        complement: selectedStore.address.complement || '',
+      });
     }
   }, [mode, selectedStore]);
 
+  const setAddressField = (field: keyof AddressFormState, value: string) => {
+    setAddress((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const lookupZipCode = async () => {
+    const zipCode = normalizeZipCode(address.zipCode);
+
+    if (zipCode.length !== 8) {
+      setError(t('stores.form.zipCodeRequired'));
+      return;
+    }
+
+    setIsLookingUpZip(true);
+    setError('');
+
+    try {
+      const result = await lookupCep(zipCode);
+
+      setAddress((prev) => ({
+        ...prev,
+        zipCode: formatZipCode(result.zipCode),
+        street: result.street || prev.street,
+        neighborhood: result.neighborhood || prev.neighborhood,
+        city: result.city || prev.city,
+        state: result.state || prev.state,
+      }));
+    } catch {
+      setError(t('stores.form.zipLookupFailed'));
+    } finally {
+      setIsLookingUpZip(false);
+    }
+  };
+
   const onSubmit = async () => {
+    const zipCode = normalizeZipCode(address.zipCode);
+
     if (!name.trim()) {
       setError(t('stores.form.nameRequired'));
       return;
     }
 
-    if (!address.trim()) {
-      setError(t('stores.form.addressRequired'));
+    if (zipCode.length !== 8) {
+      setError(t('stores.form.zipCodeRequired'));
+      return;
+    }
+
+    if (!address.street.trim()) {
+      setError(t('stores.form.streetRequired'));
+      return;
+    }
+
+    if (!address.number.trim()) {
+      setError(t('stores.form.numberRequired'));
+      return;
+    }
+
+    if (!address.city.trim()) {
+      setError(t('stores.form.cityRequired'));
+      return;
+    }
+
+    if (!address.state.trim()) {
+      setError(t('stores.form.stateRequired'));
       return;
     }
 
     setError('');
 
+    const payload = {
+      name: name.trim(),
+      address: {
+        zipCode,
+        street: address.street.trim(),
+        number: address.number.trim(),
+        neighborhood: address.neighborhood.trim(),
+        city: address.city.trim(),
+        state: address.state.trim().toUpperCase(),
+        complement: address.complement.trim(),
+      },
+    };
+
     if (mode === 'create') {
-      await createStore.mutateAsync({
-        name: name.trim(),
-        address: address.trim(),
-      });
+      await createStore.mutateAsync(payload);
       router.back();
       return;
     }
@@ -76,10 +176,7 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
 
     await updateStore.mutateAsync({
       storeId,
-      payload: {
-        name: name.trim(),
-        address: address.trim(),
-      },
+      payload,
     });
 
     router.back();
@@ -122,11 +219,118 @@ export function StoreFormScreen({ mode, storeId }: StoreFormScreenProps) {
               </VStack>
 
               <VStack gap="$2">
-                <Text color="$textLight300">{t('stores.form.address')}</Text>
+                <Text color="$textLight300">{t('stores.form.zipCode')}</Text>
+                <HStack gap="$2">
+                  <Box flex={1}>
+                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                      <InputField
+                        value={address.zipCode}
+                        onChangeText={(value) => setAddressField('zipCode', formatZipCode(value))}
+                        keyboardType="numeric"
+                        autoCapitalize="none"
+                        onBlur={() => {
+                          if (normalizeZipCode(address.zipCode).length === 8 && !address.street.trim()) {
+                            void lookupZipCode();
+                          }
+                        }}
+                      />
+                    </Input>
+                  </Box>
+
+                  <Button
+                    borderRadius="$2xl"
+                    h="$12"
+                    px="$4"
+                    variant="outline"
+                    action="secondary"
+                    onPress={() => {
+                      void lookupZipCode();
+                    }}
+                    isDisabled={isLookingUpZip}
+                  >
+                    <ButtonText>
+                      {isLookingUpZip ? t('stores.form.lookupZipLoading') : t('stores.form.lookupZip')}
+                    </ButtonText>
+                  </Button>
+                </HStack>
+              </VStack>
+
+              <VStack gap="$2">
+                <Text color="$textLight300">{t('stores.form.street')}</Text>
                 <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
                   <InputField
-                    value={address}
-                    onChangeText={setAddress}
+                    value={address.street}
+                    onChangeText={(value) => setAddressField('street', value)}
+                    autoCapitalize="words"
+                  />
+                </Input>
+              </VStack>
+
+              <HStack gap="$2">
+                <Box flex={1}>
+                  <VStack gap="$2">
+                    <Text color="$textLight300">{t('stores.form.number')}</Text>
+                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                      <InputField
+                        value={address.number}
+                        onChangeText={(value) => setAddressField('number', value)}
+                        autoCapitalize="none"
+                      />
+                    </Input>
+                  </VStack>
+                </Box>
+
+                <Box flex={2}>
+                  <VStack gap="$2">
+                    <Text color="$textLight300">{t('stores.form.neighborhood')}</Text>
+                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                      <InputField
+                        value={address.neighborhood}
+                        onChangeText={(value) => setAddressField('neighborhood', value)}
+                        autoCapitalize="words"
+                      />
+                    </Input>
+                  </VStack>
+                </Box>
+              </HStack>
+
+              <HStack gap="$2">
+                <Box flex={2}>
+                  <VStack gap="$2">
+                    <Text color="$textLight300">{t('stores.form.city')}</Text>
+                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                      <InputField
+                        value={address.city}
+                        onChangeText={(value) => setAddressField('city', value)}
+                        autoCapitalize="words"
+                      />
+                    </Input>
+                  </VStack>
+                </Box>
+
+                <Box flex={1}>
+                  <VStack gap="$2">
+                    <Text color="$textLight300">{t('stores.form.state')}</Text>
+                    <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                      <InputField
+                        value={address.state}
+                        onChangeText={(value) =>
+                          setAddressField('state', value.replace(/[^A-Za-z]/g, '').toUpperCase().slice(0, 2))
+                        }
+                        autoCapitalize="characters"
+                        autoCorrect={false}
+                      />
+                    </Input>
+                  </VStack>
+                </Box>
+              </HStack>
+
+              <VStack gap="$2">
+                <Text color="$textLight300">{t('stores.form.complement')}</Text>
+                <Input bg="$backgroundDark900" borderRadius="$2xl" h="$12">
+                  <InputField
+                    value={address.complement}
+                    onChangeText={(value) => setAddressField('complement', value)}
                     autoCapitalize="sentences"
                   />
                 </Input>

@@ -6,13 +6,29 @@ const initialStores: Store[] = [
   {
     id: 'store-1',
     name: 'Loja Centro',
-    address: 'Rua do Comércio, 120',
+    address: {
+      zipCode: '65010120',
+      street: 'Rua do Comércio',
+      number: '120',
+      neighborhood: 'Centro',
+      city: 'São Luís',
+      state: 'MA',
+      complement: 'Térreo',
+    },
     createdAt: now,
   },
   {
     id: 'store-2',
     name: 'Loja Norte',
-    address: 'Av. das Flores, 900',
+    address: {
+      zipCode: '65055010',
+      street: 'Av. das Flores',
+      number: '900',
+      neighborhood: 'Cohama',
+      city: 'São Luís',
+      state: 'MA',
+      complement: 'Loja B',
+    },
     createdAt: now,
   },
 ];

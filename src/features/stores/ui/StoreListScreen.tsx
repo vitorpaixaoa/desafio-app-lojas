@@ -21,6 +21,7 @@ import { useDeleteStore, useStores } from '@/features/stores/hooks/useStores';
 import { AnimatedCard } from '@/shared/ui/AnimatedCard';
 import { LanguageSwitcher } from '@/shared/ui/LanguageSwitcher';
 import { ScreenGradient } from '@/shared/ui/ScreenGradient';
+import { formatAddressLine, formatAddressMeta } from '@/shared/utils/address';
 
 export function StoreListScreen() {
   const router = useRouter();
@@ -179,7 +180,10 @@ export function StoreListScreen() {
                   </ButtonText>
                 </Button>
 
-                <Text color="$textLight300">{store.address}</Text>
+                <Text color="$textLight300">{formatAddressLine(store.address)}</Text>
+                <Text color="$textLight400" fontSize="$xs">
+                  {formatAddressMeta(store.address)}
+                </Text>
                 <Box
                   alignSelf="flex-start"
                   bg="$blue900"

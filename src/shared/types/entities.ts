@@ -1,7 +1,17 @@
+export type StoreAddress = {
+  zipCode: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  complement?: string;
+};
+
 export type Store = {
   id: string;
   name: string;
-  address: string;
+  address: StoreAddress;
   createdAt: string;
 };
 

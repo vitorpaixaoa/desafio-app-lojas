@@ -1,5 +1,6 @@
 import { productsDb, storesDb } from '@/mocks/data';
 import { Product, Store } from '@/shared/types/entities';
+import { getAddressSearchText, isValidAddress, normalizeZipCode } from '@/shared/utils/address';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -30,7 +31,7 @@ export function runtimeRequest(method: RequestMethod, path: string, body?: unkno
       }
 
       return (
-        store.name.toLowerCase().includes(search) || store.address.toLowerCase().includes(search)
+        store.name.toLowerCase().includes(search) || getAddressSearchText(store.address).includes(search)
       );
     });
 
@@ -40,14 +41,22 @@ export function runtimeRequest(method: RequestMethod, path: string, body?: unkno
   if (pathname === '/stores' && method === 'POST') {
     const payload = body as Pick<Store, 'name' | 'address'>;
 
-    if (!payload?.name?.trim() || !payload?.address?.trim()) {
+    if (!payload?.name?.trim() || !isValidAddress(payload?.address)) {
       return { status: 400, message: 'Nome e endereço são obrigatórios' };
     }
 
     const store: Store = {
       id: uid('store'),
       name: payload.name.trim(),
-      address: payload.address.trim(),
+      address: {
+        zipCode: normalizeZipCode(payload.address.zipCode),
+        street: payload.address.street.trim(),
+        number: payload.address.number.trim(),
+        neighborhood: payload.address.neighborhood?.trim() || '',
+        city: payload.address.city.trim(),
+        state: payload.address.state.trim().toUpperCase(),
+        complement: payload.address.complement?.trim() || '',
+      },
       createdAt: new Date().toISOString(),
     };
 
@@ -64,10 +73,22 @@ export function runtimeRequest(method: RequestMethod, path: string, body?: unkno
       return { status: 404, message: 'Loja não encontrada' };
     }
 
+    const nextAddress = payload.address
+      ? {
+          zipCode: normalizeZipCode(payload.address.zipCode),
+          street: payload.address.street?.trim() || storesDb[index].address.street,
+          number: payload.address.number?.trim() || storesDb[index].address.number,
+          neighborhood: payload.address.neighborhood?.trim() || '',
+          city: payload.address.city?.trim() || storesDb[index].address.city,
+          state: payload.address.state?.trim().toUpperCase() || storesDb[index].address.state,
+          complement: payload.address.complement?.trim() || '',
+        }
+      : storesDb[index].address;
+
     storesDb[index] = {
       ...storesDb[index],
       name: payload?.name?.trim() || storesDb[index].name,
-      address: payload?.address?.trim() || storesDb[index].address,
+      address: nextAddress,
     };
 
     return { status: 200, data: storesDb[index] };
