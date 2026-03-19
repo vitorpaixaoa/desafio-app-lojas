@@ -41,5 +41,5 @@
 ## Finalização
 - [x] Revisão geral de arquitetura e tipagem
 - [x] Garantir cobertura de testes nos fluxos críticos
-- [ ] Atualizar README com setup, execução e testes
-- [ ] Rodar checklist final de qualidade e estabilidade
+- [x] Atualizar README com setup, execução e testes
+- [x] Rodar checklist final de qualidade e estabilidade
