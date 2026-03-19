@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   createProduct,
@@ -7,12 +7,12 @@ import {
   getProductsByStore,
   updateProduct,
   UpdateProductInput,
-} from '@/features/products/api/productsApi';
-import { STORES_QUERY_KEY } from '@/features/stores/hooks/useStores';
+} from "@/features/products/api/productsApi";
+import { STORES_QUERY_KEY } from "@/features/stores/hooks/useStores";
 
-export const PRODUCTS_QUERY_KEY = 'products';
+export const PRODUCTS_QUERY_KEY = "products";
 
-export function useProducts(storeId: string, search = '') {
+export function useProducts(storeId: string, search = "") {
   return useQuery({
     queryKey: [PRODUCTS_QUERY_KEY, storeId, search],
     queryFn: () => getProductsByStore(storeId, search),
@@ -36,8 +36,13 @@ export function useUpdateProduct() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ productId, payload }: { productId: string; payload: UpdateProductInput }) =>
-      updateProduct(productId, payload),
+    mutationFn: ({
+      productId,
+      payload,
+    }: {
+      productId: string;
+      payload: UpdateProductInput;
+    }) => updateProduct(productId, payload),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] });
       await queryClient.invalidateQueries({ queryKey: [STORES_QUERY_KEY] });

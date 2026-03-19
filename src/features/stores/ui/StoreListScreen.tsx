@@ -1,7 +1,3 @@
-import { useMemo, useState } from 'react';
-import { Alert } from 'react-native';
-import { useRouter } from 'expo-router';
-import { MotiView } from 'moti';
 import {
   Box,
   Button,
@@ -14,40 +10,51 @@ import {
   Spinner,
   Text,
   VStack,
-} from '@gluestack-ui/themed';
-import { useTranslation } from 'react-i18next';
+} from "@gluestack-ui/themed";
+import { useRouter } from "expo-router";
+import { MotiView } from "moti";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Alert } from "react-native";
 
-import { useDeleteStore, useStores } from '@/features/stores/hooks/useStores';
-import { AnimatedCard } from '@/shared/ui/AnimatedCard';
-import { LanguageSwitcher } from '@/shared/ui/LanguageSwitcher';
-import { ScreenGradient } from '@/shared/ui/ScreenGradient';
-import { formatAddressLine, formatAddressMeta } from '@/shared/utils/address';
+import { useDeleteStore, useStores } from "@/features/stores/hooks/useStores";
+import { AnimatedCard } from "@/shared/ui/AnimatedCard";
+import { LanguageSwitcher } from "@/shared/ui/LanguageSwitcher";
+import { ScreenGradient } from "@/shared/ui/ScreenGradient";
+import { formatAddressLine, formatAddressMeta } from "@/shared/utils/address";
 
 export function StoreListScreen() {
   const router = useRouter();
   const { t } = useTranslation();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [isAddPressed, setIsAddPressed] = useState(false);
   const { data: stores = [], isLoading, isError } = useStores(search);
   const deleteStore = useDeleteStore();
-  const productsLabel = t('products.title').toLowerCase();
+  const productsLabel = t("products.title").toLowerCase();
 
-  const empty = useMemo(() => !isLoading && stores.length === 0, [isLoading, stores.length]);
+  const empty = useMemo(
+    () => !isLoading && stores.length === 0,
+    [isLoading, stores.length],
+  );
 
   const onDeleteStore = (storeId: string) => {
-    Alert.alert(t('stores.delete.confirmTitle'), t('stores.delete.confirmText'), [
-      {
-        text: t('stores.delete.cancel'),
-        style: 'cancel',
-      },
-      {
-        text: t('stores.delete.action'),
-        style: 'destructive',
-        onPress: () => {
-          deleteStore.mutate(storeId);
+    Alert.alert(
+      t("stores.delete.confirmTitle"),
+      t("stores.delete.confirmText"),
+      [
+        {
+          text: t("stores.delete.cancel"),
+          style: "cancel",
         },
-      },
-    ]);
+        {
+          text: t("stores.delete.action"),
+          style: "destructive",
+          onPress: () => {
+            deleteStore.mutate(storeId);
+          },
+        },
+      ],
+    );
   };
 
   return (
@@ -56,7 +63,7 @@ export function StoreListScreen() {
         <MotiView
           from={{ opacity: 0, translateY: 12 }}
           animate={{ opacity: 1, translateY: 0 }}
-          transition={{ type: 'timing', duration: 420 }}
+          transition={{ type: "timing", duration: 420 }}
         >
           <VStack gap="$1" mb="$4">
             <Text
@@ -69,7 +76,7 @@ export function StoreListScreen() {
               Retail Manager
             </Text>
             <Heading color="$textDark950" size="3xl" lineHeight="$4xl">
-              {t('stores.title')}
+              {t("stores.title")}
             </Heading>
             <Text color="$textDark600" mt="$1">
               Gestão centralizada com busca rápida e navegação fluida.
@@ -94,9 +101,14 @@ export function StoreListScreen() {
 
           <HStack gap="$3">
             <Box flex={1}>
-              <Input variant="outline" bg="$backgroundLight0" borderRadius="$2xl" height="$12">
+              <Input
+                variant="outline"
+                bg="$backgroundLight0"
+                borderRadius="$2xl"
+                height="$12"
+              >
                 <InputField
-                  placeholder={t('stores.search')}
+                  placeholder={t("stores.search")}
                   placeholderTextColor="#6B7280"
                   value={search}
                   onChangeText={setSearch}
@@ -106,7 +118,7 @@ export function StoreListScreen() {
 
             <MotiView
               animate={{ scale: isAddPressed ? 0.97 : 1 }}
-              transition={{ type: 'timing', duration: 120 }}
+              transition={{ type: "timing", duration: 120 }}
             >
               <Button
                 borderRadius="$2xl"
@@ -114,9 +126,9 @@ export function StoreListScreen() {
                 px="$5"
                 onPressIn={() => setIsAddPressed(true)}
                 onPressOut={() => setIsAddPressed(false)}
-                onPress={() => router.push('/stores/new')}
+                onPress={() => router.push("/stores/new")}
               >
-                <ButtonText>{t('stores.add')}</ButtonText>
+                <ButtonText>{t("stores.add")}</ButtonText>
               </Button>
             </MotiView>
           </HStack>
@@ -134,14 +146,14 @@ export function StoreListScreen() {
           >
             <Spinner size="large" color="$blue400" />
             <Text color="$textDark600" mt="$2">
-              {t('states.loading')}
+              {t("states.loading")}
             </Text>
           </VStack>
         ) : null}
 
         {isError ? (
           <Text color="#B42318" mt="$3">
-            {t('states.error')}
+            {t("states.error")}
           </Text>
         ) : null}
 
@@ -154,7 +166,7 @@ export function StoreListScreen() {
             borderWidth={1}
             bg="$backgroundLight50"
           >
-            <Text color="$textDark600">{t('stores.empty')}</Text>
+            <Text color="$textDark600">{t("stores.empty")}</Text>
           </Box>
         ) : null}
 
@@ -170,17 +182,23 @@ export function StoreListScreen() {
                   py="$0"
                   onPress={() =>
                     router.push({
-                      pathname: '/stores/[storeId]',
+                      pathname: "/stores/[storeId]",
                       params: { storeId: store.id },
                     })
                   }
                 >
-                  <ButtonText size="xl" color="$textDark950" letterSpacing={0.2}>
+                  <ButtonText
+                    size="xl"
+                    color="$textDark950"
+                    letterSpacing={0.2}
+                  >
                     {store.name}
                   </ButtonText>
                 </Button>
 
-                <Text color="$textDark600">{formatAddressLine(store.address)}</Text>
+                <Text color="$textDark600">
+                  {formatAddressLine(store.address)}
+                </Text>
                 <Text color="$textDark400" fontSize="$xs">
                   {formatAddressMeta(store.address)}
                 </Text>
@@ -207,12 +225,12 @@ export function StoreListScreen() {
                     h="$11"
                     onPress={() =>
                       router.push({
-                        pathname: '/stores/[storeId]/edit',
+                        pathname: "/stores/[storeId]/edit",
                         params: { storeId: store.id },
                       })
                     }
                   >
-                    <ButtonText>{t('actions.edit')}</ButtonText>
+                    <ButtonText>{t("actions.edit")}</ButtonText>
                   </Button>
 
                   <Button
@@ -223,7 +241,7 @@ export function StoreListScreen() {
                     h="$11"
                     onPress={() => onDeleteStore(store.id)}
                   >
-                    <ButtonText>{t('actions.remove')}</ButtonText>
+                    <ButtonText>{t("actions.remove")}</ButtonText>
                   </Button>
                 </HStack>
               </VStack>

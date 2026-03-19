@@ -1,7 +1,7 @@
-import { StoreAddress } from '@/shared/types/entities';
+import { StoreAddress } from "@/shared/types/entities";
 
 export function onlyDigits(value: string) {
-  return value.replace(/\D/g, '');
+  return value.replace(/\D/g, "");
 }
 
 export function formatZipCode(value: string) {
@@ -20,7 +20,7 @@ export function normalizeZipCode(value: string) {
 
 export function formatAddressLine(address: StoreAddress) {
   const parts = [address.street, address.number].filter(Boolean);
-  const base = parts.join(', ');
+  const base = parts.join(", ");
 
   if (address.complement?.trim()) {
     return `${base} - ${address.complement.trim()}`;
@@ -32,7 +32,7 @@ export function formatAddressLine(address: StoreAddress) {
 export function formatAddressMeta(address: StoreAddress) {
   const locality = [address.neighborhood, address.city, address.state]
     .filter(Boolean)
-    .join(' • ');
+    .join(" • ");
 
   return `${locality} • CEP ${formatZipCode(address.zipCode)}`;
 }
@@ -48,17 +48,17 @@ export function getAddressSearchText(address: StoreAddress) {
     address.complement,
   ]
     .filter(Boolean)
-    .join(' ')
+    .join(" ")
     .toLowerCase();
 }
 
 export function isValidAddress(address: Partial<StoreAddress>) {
   return Boolean(
     address.zipCode?.trim() &&
-      normalizeZipCode(address.zipCode).length === 8 &&
-      address.street?.trim() &&
-      address.number?.trim() &&
-      address.city?.trim() &&
-      address.state?.trim(),
+    normalizeZipCode(address.zipCode).length === 8 &&
+    address.street?.trim() &&
+    address.number?.trim() &&
+    address.city?.trim() &&
+    address.state?.trim(),
   );
 }

@@ -1,6 +1,6 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from "expo-router";
 
-import { StoreFormScreen } from '@/features/stores/ui/StoreFormScreen';
+import { StoreFormScreen } from "@/features/stores/ui/StoreFormScreen";
 
 export default function EditStoreRoute() {
   const { storeId } = useLocalSearchParams<{ storeId: string }>();

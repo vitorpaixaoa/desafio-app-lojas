@@ -1,17 +1,24 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from '@jest/globals';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  it,
+} from "@jest/globals";
 
-import { resetMockDb } from '@/mocks/data';
-import { server } from '@/mocks/server';
 import {
   createStore,
   deleteStore,
   getStores,
   updateStore,
-} from '@/features/stores/api/storesApi';
+} from "@/features/stores/api/storesApi";
+import { resetMockDb } from "@/mocks/data";
+import { server } from "@/mocks/server";
 
-describe('storesApi', () => {
+describe("storesApi", () => {
   beforeAll(() => {
-    server.listen({ onUnhandledRequest: 'error' });
+    server.listen({ onUnhandledRequest: "error" });
   });
 
   afterEach(() => {
@@ -23,60 +30,60 @@ describe('storesApi', () => {
     server.close();
   });
 
-  it('lista lojas com contagem de produtos', async () => {
+  it("lista lojas com contagem de produtos", async () => {
     const stores = await getStores();
 
-    const lojaCentro = stores.find((store) => store.name === 'Loja Centro');
+    const lojaCentro = stores.find((store) => store.name === "Loja Centro");
 
     expect(stores).toHaveLength(2);
     expect(lojaCentro?.productsCount).toBe(2);
   });
 
-  it('cria uma nova loja', async () => {
+  it("cria uma nova loja", async () => {
     const created = await createStore({
-      name: 'Loja Sul',
+      name: "Loja Sul",
       address: {
-        zipCode: '65000000',
-        street: 'Rua das Palmeiras',
-        number: '300',
-        neighborhood: 'Jardins',
-        city: 'São Luís',
-        state: 'MA',
-        complement: 'Sala 3',
+        zipCode: "65000000",
+        street: "Rua das Palmeiras",
+        number: "300",
+        neighborhood: "Jardins",
+        city: "São Luís",
+        state: "MA",
+        complement: "Sala 3",
       },
     });
 
     const stores = await getStores();
 
     expect(created.id).toBeTruthy();
-    expect(created.name).toBe('Loja Sul');
+    expect(created.name).toBe("Loja Sul");
     expect(stores.some((store) => store.id === created.id)).toBe(true);
   });
 
-  it('atualiza uma loja existente', async () => {
+  it("atualiza uma loja existente", async () => {
     const stores = await getStores();
     const first = stores[0];
 
     const updated = await updateStore(first.id, {
-      name: 'Loja Centro Atualizada',
+      name: "Loja Centro Atualizada",
       address: {
         ...first.address,
-        number: '999',
+        number: "999",
       },
     });
 
-    expect(updated.name).toBe('Loja Centro Atualizada');
-    expect(updated.address.number).toBe('999');
+    expect(updated.name).toBe("Loja Centro Atualizada");
+    expect(updated.address.number).toBe("999");
 
     const refreshed = await getStores();
     const found = refreshed.find((store) => store.id === first.id);
 
-    expect(found?.name).toBe('Loja Centro Atualizada');
+    expect(found?.name).toBe("Loja Centro Atualizada");
   });
 
-  it('remove uma loja e seus produtos', async () => {
+  it("remove uma loja e seus produtos", async () => {
     const stores = await getStores();
-    const target = stores.find((store) => store.name === 'Loja Centro');
+    const target = stores.find((store) => store.name === "Loja Centro");
 
     expect(target).toBeDefined();
 

@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'https://api.desafio.lojas.local';
+export const API_BASE_URL = "https://api.desafio.lojas.local";

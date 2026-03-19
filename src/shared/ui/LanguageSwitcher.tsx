@@ -1,13 +1,13 @@
-import { Button, ButtonText, HStack } from '@gluestack-ui/themed';
-import { MotiView } from 'moti';
+import { Button, ButtonText, HStack } from "@gluestack-ui/themed";
+import { MotiView } from "moti";
 
-import { AppLanguage } from '@/shared/i18n/resources';
-import { useLanguageStore } from '@/shared/state/useLanguageStore';
+import { AppLanguage } from "@/shared/i18n/resources";
+import { useLanguageStore } from "@/shared/state/useLanguageStore";
 
-const languages: Array<{ code: AppLanguage; label: string }> = [
-  { code: 'pt', label: 'PT' },
-  { code: 'en', label: 'EN' },
-  { code: 'es', label: 'ES' },
+const languages: { code: AppLanguage; label: string }[] = [
+  { code: "pt", label: "PT" },
+  { code: "en", label: "EN" },
+  { code: "es", label: "ES" },
 ];
 
 export function LanguageSwitcher() {
@@ -27,12 +27,12 @@ export function LanguageSwitcher() {
         <MotiView
           key={item.code}
           animate={{ scale: language === item.code ? 1 : 0.96 }}
-          transition={{ type: 'timing', duration: 180 }}
+          transition={{ type: "timing", duration: 180 }}
         >
           <Button
-            action={language === item.code ? 'primary' : 'secondary'}
+            action={language === item.code ? "primary" : "secondary"}
             size="xs"
-            variant={language === item.code ? 'solid' : 'link'}
+            variant={language === item.code ? "solid" : "link"}
             borderRadius="$full"
             minWidth="$10"
             onPress={() => setLanguage(item.code)}

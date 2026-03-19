@@ -23,8 +23,8 @@ function createServerInstance(): ServerLike {
       (globalThis as { MessageEvent?: unknown }).MessageEvent = class {};
     }
 
-    const { setupServer } = require('msw/native');
-    const { handlers } = require('./handlers');
+    const { setupServer } = require("msw/native");
+    const { handlers } = require("./handlers");
     serverInstance = setupServer(...handlers);
   } catch {
     serverInstance = noopServer;
@@ -50,6 +50,6 @@ export function ensureMocksStarted() {
     return;
   }
 
-  createServerInstance().listen({ onUnhandledRequest: 'bypass' });
+  createServerInstance().listen({ onUnhandledRequest: "bypass" });
   started = true;
 }

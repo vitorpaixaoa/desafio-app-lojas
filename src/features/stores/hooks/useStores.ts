@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   createStore,
@@ -7,11 +7,11 @@ import {
   getStores,
   updateStore,
   UpdateStoreInput,
-} from '@/features/stores/api/storesApi';
+} from "@/features/stores/api/storesApi";
 
-export const STORES_QUERY_KEY = 'stores';
+export const STORES_QUERY_KEY = "stores";
 
-export function useStores(search = '') {
+export function useStores(search = "") {
   return useQuery({
     queryKey: [STORES_QUERY_KEY, search],
     queryFn: () => getStores(search),
@@ -33,8 +33,13 @@ export function useUpdateStore() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ storeId, payload }: { storeId: string; payload: UpdateStoreInput }) =>
-      updateStore(storeId, payload),
+    mutationFn: ({
+      storeId,
+      payload,
+    }: {
+      storeId: string;
+      payload: UpdateStoreInput;
+    }) => updateStore(storeId, payload),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [STORES_QUERY_KEY] });
     },

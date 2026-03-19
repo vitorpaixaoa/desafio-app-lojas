@@ -1,9 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
-import i18next from '@/shared/i18n';
-import { AppLanguage } from '@/shared/i18n/resources';
+import i18next from "@/shared/i18n";
+import { AppLanguage } from "@/shared/i18n/resources";
 
 type LanguageState = {
   language: AppLanguage;
@@ -13,14 +13,14 @@ type LanguageState = {
 export const useLanguageStore = create<LanguageState>()(
   persist(
     (set) => ({
-      language: 'pt',
+      language: "pt",
       setLanguage: (language) => {
         set({ language });
-        void i18next.changeLanguage(language);
+        i18next.changeLanguage(language).catch(() => undefined);
       },
     }),
     {
-      name: 'desafio-app-lojas-language',
+      name: "desafio-app-lojas-language",
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),

@@ -1,6 +1,3 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'expo-router';
-import { MotiView } from 'moti';
 import {
   Box,
   Button,
@@ -11,43 +8,50 @@ import {
   ScrollView,
   Text,
   VStack,
-} from '@gluestack-ui/themed';
-import { useTranslation } from 'react-i18next';
+} from "@gluestack-ui/themed";
+import { useRouter } from "expo-router";
+import { MotiView } from "moti";
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   useCreateProduct,
   useProducts,
   useUpdateProduct,
-} from '@/features/products/hooks/useProducts';
-import { ScreenGradient } from '@/shared/ui/ScreenGradient';
+} from "@/features/products/hooks/useProducts";
+import { ScreenGradient } from "@/shared/ui/ScreenGradient";
 
 type ProductFormScreenProps = {
-  mode: 'create' | 'edit';
+  mode: "create" | "edit";
   storeId?: string;
   productId?: string;
 };
 
-export function ProductFormScreen({ mode, storeId, productId }: ProductFormScreenProps) {
+export function ProductFormScreen({
+  mode,
+  storeId,
+  productId,
+}: ProductFormScreenProps) {
   const router = useRouter();
   const { t } = useTranslation();
 
   const createProduct = useCreateProduct();
   const updateProduct = useUpdateProduct();
 
-  const { data: products = [] } = useProducts(storeId ?? '');
+  const { data: products = [] } = useProducts(storeId ?? "");
 
   const selectedProduct = useMemo(
     () => products.find((item) => item.id === productId),
     [productId, products],
   );
 
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('');
-  const [price, setPrice] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (mode === 'edit' && selectedProduct) {
+    if (mode === "edit" && selectedProduct) {
       setName(selectedProduct.name);
       setCategory(selectedProduct.category);
       setPrice(String(selectedProduct.price));
@@ -55,31 +59,31 @@ export function ProductFormScreen({ mode, storeId, productId }: ProductFormScree
   }, [mode, selectedProduct]);
 
   const onSubmit = async () => {
-    const parsedPrice = Number(price.replace(',', '.'));
+    const parsedPrice = Number(price.replace(",", "."));
 
     if (!name.trim()) {
-      setError(t('products.form.nameRequired'));
+      setError(t("products.form.nameRequired"));
       return;
     }
 
     if (!category.trim()) {
-      setError(t('products.form.categoryRequired'));
+      setError(t("products.form.categoryRequired"));
       return;
     }
 
     if (!parsedPrice || parsedPrice <= 0) {
-      setError(t('products.form.priceRequired'));
+      setError(t("products.form.priceRequired"));
       return;
     }
 
     if (!storeId) {
-      setError(t('states.error'));
+      setError(t("states.error"));
       return;
     }
 
-    setError('');
+    setError("");
 
-    if (mode === 'create') {
+    if (mode === "create") {
       await createProduct.mutateAsync({
         storeId,
         name: name.trim(),
@@ -91,7 +95,7 @@ export function ProductFormScreen({ mode, storeId, productId }: ProductFormScree
     }
 
     if (!productId) {
-      setError(t('states.error'));
+      setError(t("states.error"));
       return;
     }
 
@@ -116,14 +120,21 @@ export function ProductFormScreen({ mode, storeId, productId }: ProductFormScree
           <MotiView
             from={{ opacity: 0, translateY: 10 }}
             animate={{ opacity: 1, translateY: 0 }}
-            transition={{ type: 'timing', duration: 320 }}
+            transition={{ type: "timing", duration: 320 }}
           >
             <VStack gap="$1">
-              <Text color="#1D4ED8" fontSize="$xs" textTransform="uppercase" letterSpacing={1.3}>
+              <Text
+                color="#1D4ED8"
+                fontSize="$xs"
+                textTransform="uppercase"
+                letterSpacing={1.3}
+              >
                 Product Details
               </Text>
               <Heading color="$textDark950" size="2xl" lineHeight="$3xl">
-                {mode === 'create' ? t('products.form.createTitle') : t('products.form.editTitle')}
+                {mode === "create"
+                  ? t("products.form.createTitle")
+                  : t("products.form.editTitle")}
               </Heading>
             </VStack>
           </MotiView>
@@ -137,21 +148,29 @@ export function ProductFormScreen({ mode, storeId, productId }: ProductFormScree
           >
             <VStack gap="$4">
               <VStack gap="$2">
-                <Text color="$textDark600">{t('products.form.name')}</Text>
+                <Text color="$textDark600">{t("products.form.name")}</Text>
                 <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
-                  <InputField value={name} onChangeText={setName} autoCapitalize="words" />
+                  <InputField
+                    value={name}
+                    onChangeText={setName}
+                    autoCapitalize="words"
+                  />
                 </Input>
               </VStack>
 
               <VStack gap="$2">
-                <Text color="$textDark600">{t('products.form.category')}</Text>
+                <Text color="$textDark600">{t("products.form.category")}</Text>
                 <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
-                  <InputField value={category} onChangeText={setCategory} autoCapitalize="words" />
+                  <InputField
+                    value={category}
+                    onChangeText={setCategory}
+                    autoCapitalize="words"
+                  />
                 </Input>
               </VStack>
 
               <VStack gap="$2">
-                <Text color="$textDark600">{t('products.form.price')}</Text>
+                <Text color="$textDark600">{t("products.form.price")}</Text>
                 <Input bg="$backgroundLight0" borderRadius="$2xl" h="$12">
                   <InputField
                     value={price}
@@ -164,8 +183,13 @@ export function ProductFormScreen({ mode, storeId, productId }: ProductFormScree
 
               {error ? <Text color="#B42318">{error}</Text> : null}
 
-              <Button borderRadius="$2xl" h="$12" isDisabled={isSubmitting} onPress={onSubmit}>
-                <ButtonText>{t('products.form.save')}</ButtonText>
+              <Button
+                borderRadius="$2xl"
+                h="$12"
+                isDisabled={isSubmitting}
+                onPress={onSubmit}
+              >
+                <ButtonText>{t("products.form.save")}</ButtonText>
               </Button>
             </VStack>
           </Box>

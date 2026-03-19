@@ -1,6 +1,6 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from "expo-router";
 
-import { ProductListScreen } from '@/features/products/ui/ProductListScreen';
+import { ProductListScreen } from "@/features/products/ui/ProductListScreen";
 
 export default function ProductsRoute() {
   const { storeId } = useLocalSearchParams<{ storeId: string }>();

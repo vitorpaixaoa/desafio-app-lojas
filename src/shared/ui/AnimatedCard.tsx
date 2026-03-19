@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
-import { Box } from '@gluestack-ui/themed';
-import { MotiView } from 'moti';
+import { Box } from "@gluestack-ui/themed";
+import { MotiView } from "moti";
+import { ReactNode } from "react";
 
 type AnimatedCardProps = {
   children: ReactNode;
@@ -13,7 +13,7 @@ export function AnimatedCard({ children, delay = 0 }: AnimatedCardProps) {
       from={{ opacity: 0, translateY: 18, scale: 0.985 }}
       animate={{ opacity: 1, translateY: 0, scale: 1 }}
       transition={{
-        type: 'spring',
+        type: "spring",
         damping: 18,
         stiffness: 170,
         delay,
